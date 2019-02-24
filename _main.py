@@ -6,7 +6,6 @@ from datetime import date, timedelta
 import sqlite3
 
 
-
 MY_API_KEY= 'b6803cd9-9551-4046-a095-4bafc52c77cd'
 
 API_ENDPOINT = 'http://content.guardianapis.com/search'
@@ -15,7 +14,7 @@ my_params = {
     'to-date': "",
     'order-by': "newest",
     'show-fields': 'all',
-    'page-size': 25,
+    'page-size': 50,
     'api-key': MY_API_KEY
 }
 
@@ -43,13 +42,13 @@ def get_articles():
         columns = ['bodyText', 'byline', 'headline', 'publication' ]
 
         for result in all_results:
-            # print(json.dumps(result, indent=4, sort_keys=True))
-            page = {col: result['fields'][col] for col in columns}
+            try:
+                page = {col: result['fields'][col] for col in columns}
+            except KeyError:
+                continue
             page['id'] = result['id']
-            page['start_date'] = start_date.strftime('%d-%m-%Y')
-            # print(dict_variable)
-        print(page['headline'])
-        db_commit(conn, c, page)
+            page['end_date'] = start_date.strftime('%d-%m-%Y')
+            db_commit(conn, c, page)
 
 
 def db_connect():
