@@ -5,6 +5,8 @@ import json
 from datetime import date, timedelta
 import sqlite3
 
+
+
 MY_API_KEY= 'b6803cd9-9551-4046-a095-4bafc52c77cd'
 
 API_ENDPOINT = 'http://content.guardianapis.com/search'
